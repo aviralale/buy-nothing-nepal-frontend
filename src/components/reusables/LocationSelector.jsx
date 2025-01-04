@@ -319,10 +319,12 @@ const LocationSelector = ({ onLocationSelect }) => {
           )}
 
           <div className="relative w-full h-96 border rounded-lg">
-            {loading && (
+            {loading ? (
               <div className="absolute inset-0 flex items-center justify-center ">
                 <Loader className="h-6 w-6 animate-spin" />
               </div>
+            ) : (
+              <div id="map" className="w-full h-full rounded-lg" />
             )}
           </div>
         </div>
