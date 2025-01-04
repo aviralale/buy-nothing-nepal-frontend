@@ -1,61 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 142.1 76.2% 36.3%;
+    --background: 120 10% 98%; /* Light greenish background */
+    --foreground: 220 15% 15%; /* Deep grayish text */
+    --card: 0 0% 100%; /* White for cards */
+    --card-foreground: 220 15% 15%; /* Deep grayish text for cards */
+    --popover: 0 0% 100%; /* White for popups */
+    --popover-foreground: 220 15% 15%; /* Deep grayish text */
+    --primary: 142 70% 40%; /* Fresh green for primary actions */
+    --primary-foreground: 0 0% 100%; /* White text for primary buttons */
+    --secondary: 30 30% 90%; /* Beige for secondary sections */
+    --secondary-foreground: 220 15% 15%; /* Deep grayish text */
+    --muted: 240 5% 95%; /* Soft gray for muted elements */
+    --muted-foreground: 220 10% 40%; /* Medium grayish text */
+    --accent: 32 65% 85%; /* Warm orange accents */
+    --accent-foreground: 220 15% 15%; /* Deep grayish text */
+    --destructive: 0 70% 50%; /* Vibrant red for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White text for destructive actions */
+    --border: 240 10% 85%; /* Soft grayish-blue for borders */
+    --input: 240 10% 90%; /* Light gray for inputs */
+    --ring: 142 70% 40%; /* Fresh green for focus rings */
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 142 60% 45%; /* Chart green */
+    --chart-2: 32 70% 55%; /* Chart orange */
+    --chart-3: 197 50% 40%; /* Chart blue */
+    --chart-4: 43 70% 55%; /* Chart lime */
+    --chart-5: 12 65% 50%; /* Chart red */
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 0 0% 95%;
-    --card: 24 9.8% 10%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 142.1 70.6% 45.3%;
-    --primary-foreground: 144.9 80.4% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 142.4 71.8% 29.2%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background: 220 20% 10%; /* Darker background for dark mode */
+    --foreground: 0 0% 90%; /* Light text for dark mode */
+    --card: 220 15% 15%; /* Dark gray cards */
+    --card-foreground: 0 0% 90%; /* Light text for dark mode cards */
+    --popover: 220 15% 15%; /* Dark gray popups */
+    --popover-foreground: 0 0% 90%; /* Light text for popups */
+    --primary: 142 70% 50%; /* Vibrant green for dark mode */
+    --primary-foreground: 0 0% 100%; /* White text for primary buttons */
+    --secondary: 30 30% 20%; /* Deep beige for secondary sections */
+    --secondary-foreground: 0 0% 90%; /* Light text for secondary sections */
+    --muted: 220 15% 15%; /* Muted grayish background */
+    --muted-foreground: 240 10% 50%; /* Light muted text */
+    --accent: 32 60% 35%; /* Warm orange accents for dark mode */
+    --accent-foreground: 0 0% 90%; /* Light text for accents */
+    --destructive: 0 65% 40%; /* Deep red for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White text for destructive actions */
+    --border: 240 20% 20%; /* Darker borders */
+    --input: 240 20% 20%; /* Darker input fields */
+    --ring: 142 70% 50%; /* Green for focus rings */
+    --chart-1: 142 60% 50%; /* Chart green */
+    --chart-2: 32 60% 45%; /* Chart orange */
+    --chart-3: 197 50% 35%; /* Chart blue */
+    --chart-4: 43 60% 50%; /* Chart lime */
+    --chart-5: 12 60% 45%; /* Chart red */
   }
 }
 
@@ -66,4 +68,19 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", serif;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
