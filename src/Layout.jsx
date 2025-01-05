@@ -3,12 +3,12 @@ import Navbar from "./components/Navbar";
 
 const Layout = ({ children }) => {
   return (
-    <>
+    <div>
       <Navbar />
-      <div className="flex flex-col justify-center items-center">
+      <div className="min-h-screen flex flex-col justify-center items-center pt-16">
         {children}
       </div>
-    </>
+    </div>
   );
 };
 
