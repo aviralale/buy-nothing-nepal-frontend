@@ -8,27 +8,53 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { login } from "@/lib/auth/auth";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function LoginForm() {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleUsernameChange = (e) => {
+    setFormData({ ...formData, username: e.target.value });
+  };
+  const handlePasswordChange = (e) => {
+    setFormData({ ...formData, password: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await login(formData);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(formData);
+  };
+
   return (
     <div className={"flex flex-col gap-6"}>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your username below to login to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
+                  id="username"
+                  type="username"
+                  value={formData.username}
+                  onChange={handleUsernameChange}
+                  placeholder="john_doe"
                   required
                 />
               </div>
@@ -42,7 +68,13 @@ export default function LoginForm() {
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  value={formData.password}
+                  onChange={handlePasswordChange}
+                  type="password"
+                  required
+                />
               </div>
               <Button type="submit" className="w-full">
                 Login

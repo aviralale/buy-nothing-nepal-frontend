@@ -19,19 +19,20 @@ import {
 } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Camera } from "lucide-react";
+import { register } from "@/lib/auth/auth";
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     username: "",
-    phoneNumber: "",
-    dateOfBirth: "",
+    phone_number: "",
+    date_of_birth: "",
     gender: "",
     password: "",
-    rePassword: "",
-    profilePicture: null,
+    re_password: "",
+    profile_picture: null,
   });
 
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -43,30 +44,30 @@ export default function RegisterForm() {
     const newErrors = {};
 
     // Profile picture validation
-    if (!formData.profilePicture) {
-      newErrors.profilePicture = "Profile picture is required";
+    if (!formData.profile_picture) {
+      newErrors.profile_picture = "Profile picture is required";
     } else {
       const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
-      if (!allowedTypes.includes(formData.profilePicture.type)) {
-        newErrors.profilePicture =
+      if (!allowedTypes.includes(formData.profile_picture.type)) {
+        newErrors.profile_picture =
           "Please upload a valid image file (JPEG, PNG, or GIF)";
-      } else if (formData.profilePicture.size > 5 * 1024 * 1024) {
-        newErrors.profilePicture = "Image size should be less than 5MB";
+      } else if (formData.profile_picture.size > 5 * 1024 * 1024) {
+        newErrors.profile_picture = "Image size should be less than 5MB";
       }
     }
 
     // First Name validation
-    if (!formData.firstName) {
-      newErrors.firstName = "First name is required";
-    } else if (formData.firstName.length < 2) {
-      newErrors.firstName = "First name must be at least 2 characters";
+    if (!formData.first_name) {
+      newErrors.first_name = "First name is required";
+    } else if (formData.first_name.length < 2) {
+      newErrors.first_name = "First name must be at least 2 characters";
     }
 
     // Last Name validation
-    if (!formData.lastName) {
-      newErrors.lastName = "Last name is required";
-    } else if (formData.lastName.length < 2) {
-      newErrors.lastName = "Last name must be at least 2 characters";
+    if (!formData.last_name) {
+      newErrors.last_name = "Last name is required";
+    } else if (formData.last_name.length < 2) {
+      newErrors.last_name = "Last name must be at least 2 characters";
     }
 
     // Email validation
@@ -88,17 +89,17 @@ export default function RegisterForm() {
 
     // Phone number validation
     const phoneRegex = /^\d{10}$/;
-    if (!formData.phoneNumber) {
-      newErrors.phoneNumber = "Phone number is required";
-    } else if (!phoneRegex.test(formData.phoneNumber)) {
-      newErrors.phoneNumber = "Please enter a valid 10-digit phone number";
+    if (!formData.phone_number) {
+      newErrors.phone_number = "Phone number is required";
+    } else if (!phoneRegex.test(formData.phone_number)) {
+      newErrors.phone_number = "Please enter a valid 10-digit phone number";
     }
 
     // Date of birth validation
-    if (!formData.dateOfBirth) {
-      newErrors.dateOfBirth = "Date of birth is required";
+    if (!formData.date_of_birth) {
+      newErrors.date_of_birth = "Date of birth is required";
     } else {
-      const birthDate = new Date(formData.dateOfBirth);
+      const birthDate = new Date(formData.date_of_birth);
       const today = new Date();
 
       let age = today.getFullYear() - birthDate.getFullYear();
@@ -111,9 +112,10 @@ export default function RegisterForm() {
       }
 
       if (age < 16) {
-        newErrors.dateOfBirth = "You must be at least 16 years old to register";
+        newErrors.date_of_birth =
+          "You must be at least 16 years old to register";
       } else if (age > 120) {
-        newErrors.dateOfBirth = "Invalid date to register";
+        newErrors.date_of_birth = "Invalid date to register";
       }
     }
 
@@ -133,20 +135,33 @@ export default function RegisterForm() {
     }
 
     // Confirm password validation
-    if (!formData.rePassword) {
-      newErrors.rePassword = "Please confirm your password";
-    } else if (formData.password !== formData.rePassword) {
-      newErrors.rePassword = "Passwords do not match";
+    if (!formData.re_password) {
+      newErrors.re_password = "Please confirm your password";
+    } else if (formData.password !== formData.re_password) {
+      newErrors.re_password = "Passwords do not match";
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle successful form submission
+      try {
+        const formDataToSend = new FormData();
+
+        Object.keys(formData).forEach((key) => {
+          if (key !== "profile_picture") {
+            formDataToSend.append(key, formData[key]);
+          }
+        });
+        formDataToSend.append("profile_picture", formData.profile_picture);
+        const response = await register(formData);
+        console.log("User registered successfully:", response);
+      } catch (error) {
+        console.error("Error registering user:", error);
+      }
       console.log("Form submitted:", formData);
     }
   };
@@ -171,7 +186,7 @@ export default function RegisterForm() {
     if (file) {
       setFormData((prev) => ({
         ...prev,
-        profilePicture: file,
+        profile_picture: file,
       }));
       const url = URL.createObjectURL(file);
       setPreviewUrl(url);
@@ -222,41 +237,41 @@ export default function RegisterForm() {
                   />
                 </div>
               </div>
-              {errors.profilePicture && (
+              {errors.profile_picture && (
                 <span className="text-red-500 text-xs text-center">
-                  {errors.profilePicture}
+                  {errors.profile_picture}
                 </span>
               )}
               <div className="flex lg:flex-row md:flex-row sm:flex-col gap-2">
                 <div className="grid gap-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="first_name">First Name</Label>
                   <Input
-                    id="firstName"
+                    id="first_name"
                     type="text"
                     placeholder="John"
-                    value={formData.firstName}
+                    value={formData.first_name}
                     onChange={handleInputChange}
-                    className={errors.firstName ? "border-red-500" : ""}
+                    className={errors.first_name ? "border-red-500" : ""}
                   />
-                  {errors.firstName && (
+                  {errors.first_name && (
                     <span className="text-red-500 text-xs">
-                      {errors.firstName}
+                      {errors.first_name}
                     </span>
                   )}
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="last_name">Last Name</Label>
                   <Input
-                    id="lastName"
+                    id="last_name"
                     type="text"
                     placeholder="Doe"
-                    value={formData.lastName}
+                    value={formData.last_name}
                     onChange={handleInputChange}
-                    className={errors.lastName ? "border-red-500" : ""}
+                    className={errors.last_name ? "border-red-500" : ""}
                   />
-                  {errors.lastName && (
+                  {errors.last_name && (
                     <span className="text-red-500 text-xs">
-                      {errors.lastName}
+                      {errors.last_name}
                     </span>
                   )}
                 </div>
@@ -293,35 +308,35 @@ export default function RegisterForm() {
                   )}
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="phoneNumber">Phone Number</Label>
+                  <Label htmlFor="phone_number">Phone Number</Label>
                   <Input
-                    id="phoneNumber"
+                    id="phone_number"
                     type="text"
                     placeholder="9*********"
-                    value={formData.phoneNumber}
+                    value={formData.phone_number}
                     onChange={handleInputChange}
-                    className={errors.phoneNumber ? "border-red-500" : ""}
+                    className={errors.phone_number ? "border-red-500" : ""}
                   />
-                  {errors.phoneNumber && (
+                  {errors.phone_number && (
                     <span className="text-red-500 text-xs">
-                      {errors.phoneNumber}
+                      {errors.phone_number}
                     </span>
                   )}
                 </div>
               </div>
               <div className="flex lg:flex-row md:flex-row sm:flex-col gap-2">
                 <div className="grid w-1/2 sm:w-full gap-2">
-                  <Label htmlFor="dateOfBirth">Date of birth</Label>
+                  <Label htmlFor="date_of_birth">Date of birth</Label>
                   <Input
-                    id="dateOfBirth"
+                    id="date_of_birth"
                     type="date"
-                    value={formData.dateOfBirth}
+                    value={formData.date_of_birth}
                     onChange={handleInputChange}
-                    className={errors.dateOfBirth ? "border-red-500" : ""}
+                    className={errors.date_of_birth ? "border-red-500" : ""}
                   />
-                  {errors.dateOfBirth && (
+                  {errors.date_of_birth && (
                     <span className="text-red-500 text-xs">
-                      {errors.dateOfBirth}
+                      {errors.date_of_birth}
                     </span>
                   )}
                 </div>
@@ -366,17 +381,17 @@ export default function RegisterForm() {
                   )}
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="rePassword">Retype Password</Label>
+                  <Label htmlFor="re_password">Retype Password</Label>
                   <Input
-                    id="rePassword"
+                    id="re_password"
                     type="password"
-                    value={formData.rePassword}
+                    value={formData.re_password}
                     onChange={handleInputChange}
-                    className={errors.rePassword ? "border-red-500" : ""}
+                    className={errors.re_password ? "border-red-500" : ""}
                   />
-                  {errors.rePassword && (
+                  {errors.re_password && (
                     <span className="text-red-500 text-xs">
-                      {errors.rePassword}
+                      {errors.re_password}
                     </span>
                   )}
                 </div>

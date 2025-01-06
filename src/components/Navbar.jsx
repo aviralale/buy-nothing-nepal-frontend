@@ -30,6 +30,7 @@ import bgNavDark from "../assets/images/bg-nav-dark.png";
 import LogoDark from "../assets/images/logo-dark.png";
 import PictureInput from "./reusables/PictureInput";
 import { Button } from "./ui/button";
+import { useAuth } from "@/lib/context/AuthContext";
 
 const DialogForm = (
   <>
@@ -86,6 +87,7 @@ const DialogForm = (
 );
 
 const Navbar = () => {
+  const { isLoggedIn } = useAuth();
   const theme = localStorage.getItem("vite-ui-theme");
   const logo =
     theme === "dark"
@@ -148,9 +150,13 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink className={getNavLinkClass} to="/my-account">
-            My Account
-          </NavLink>
+          {isLoggedIn ? (
+            <NavLink className={getNavLinkClass} to="/my-account">
+              My Account
+            </NavLink>
+          ) : (
+            <Link to="/auth">My Account</Link>
+          )}
         </li>
         <li>
           <NavLink className={getNavLinkClass} to="/contact">
@@ -158,23 +164,25 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="outline-none">
-              <img
-                src="https://i.pinimg.com/736x/12/bd/fa/12bdfa75f34df29f54e25393570df0a9.jpg"
-                alt="user's pfp"
-                className="w-8 h-8 rounded-full object-cover"
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>My Listings</DropdownMenuItem>
-              <DropdownMenuItem>My Requests</DropdownMenuItem>
-              <DropdownMenuItem>Favorites</DropdownMenuItem>
-              <DropdownMenuItem>Profile Settings</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {isLoggedIn && (
+            <DropdownMenu>
+              <DropdownMenuTrigger className="outline-none">
+                <img
+                  src="https://i.pinimg.com/736x/12/bd/fa/12bdfa75f34df29f54e25393570df0a9.jpg"
+                  alt="user's pfp"
+                  className="w-8 h-8 rounded-full object-cover"
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>My Listings</DropdownMenuItem>
+                <DropdownMenuItem>My Requests</DropdownMenuItem>
+                <DropdownMenuItem>Favorites</DropdownMenuItem>
+                <DropdownMenuItem>Profile Settings</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </li>
       </ul>
     </nav>
