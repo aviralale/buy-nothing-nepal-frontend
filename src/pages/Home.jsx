@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import Hero from "@/components/Hero";
+import Features from "@/components/sections/Features";
 
 const pageVariants = {
   initial: { opacity: 0, y: 50 },
@@ -15,9 +17,10 @@ const Home = () => {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.5 }}
-      className="w-full h-full flex items-center justify-center"
+      className="w-full h-full flex flex-col items-center justify-center"
     >
-      <h1>Welcome to Home</h1>
+      <Hero />
+      <Features />
     </motion.div>
   );
 };

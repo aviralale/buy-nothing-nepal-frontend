@@ -31,32 +31,29 @@ import LogoDark from "../assets/images/logo-dark.png";
 import PictureInput from "./reusables/PictureInput";
 import { Button } from "./ui/button";
 import { useAuth } from "@/lib/context/AuthContext";
+import { Lock } from "lucide-react";
 
-const DialogForm = (
-  <>
+const DialogForm = () => {
+  const { isLoggedIn } = useAuth();
+
+  return isLoggedIn ? (
     <ScrollArea>
       <div className="grid gap-4 py-4">
-        <div className="flex flex-col items-start gap-1">
-          <Label htmlFor="name" className="text-right">
-            Item Name
-          </Label>
-          <Input id="name" className="col-span-3" />
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="name">Item Name</Label>
+          <Input id="name" placeholder="Enter item name" />
         </div>
 
-        <div className="flex flex-col items-start gap-1">
-          <Label htmlFor="username" className="text-right">
-            Item Description
-          </Label>
-          <Textarea id="description" className="col-span-3" />
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="description">Item Description</Label>
+          <Textarea id="description" placeholder="Enter item description" />
         </div>
 
-        <div className="flex flex-col items-start gap-1">
-          <Label htmlFor="username" className="text-right">
-            Item Label
-          </Label>
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="label">Item Label</Label>
           <Select defaultValue="giveaway">
             <SelectTrigger>
-              <SelectValue />
+              <SelectValue placeholder="Select label" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="giveaway">Giveaway</SelectItem>
@@ -64,27 +61,33 @@ const DialogForm = (
             </SelectContent>
           </Select>
         </div>
-        <div className="flex flex-col items-start gap-1">
-          <Label htmlFor="username" className="text-right">
-            Item Tags
-          </Label>
+
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="tags">Item Tags</Label>
           <TagsInput />
         </div>
 
-        <div className="flex gap-1">
-          <LocationSelector />
-        </div>
-        <div className="flex flex-col items-start gap-1">
-          <Label htmlFor="username" className="text-right">
-            Item Pictures
-          </Label>
+        <LocationSelector />
+
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="pictures">Item Pictures</Label>
           <PictureInput />
         </div>
       </div>
+      <Button className="mt-4">Place Item</Button>
     </ScrollArea>
-    <Button>Place Item</Button>
-  </>
-);
+  ) : (
+    <div className="flex flex-col items-center justify-between">
+      <div className="flex flex-col items-center">
+        <Lock className="w-48 h-48" />
+        <p>You need to be authenticated to place an item.</p>
+      </div>
+      <Link to="/auth" className="text-primary hover:underline">
+        Login Now
+      </Link>
+    </div>
+  );
+};
 
 const Navbar = () => {
   const { isLoggedIn } = useAuth();
@@ -114,13 +117,10 @@ const Navbar = () => {
 
   return (
     <nav
-      className="fixed top-0 z-10 w-full flex justify-between items-center p-4 font-semibold bg-cover bg-bottom bg-no-repeat"
-      style={{
-        backgroundImage: `url(${navBackground})`,
-      }}
+      className="fixed top-0 z-10 w-full flex justify-between items-center p-4 bg-background/95 rounded-b-sm border-b dark:border-b-[#1c2338] bg-cover bg-bottom"
+      style={{ backgroundImage: `url(${navBackground})` }}
     >
       <ul className="flex items-center gap-8">
-        <li></li>
         <li>
           <NavLink className={getNavLinkClass} to="/" end>
             Home
@@ -135,41 +135,47 @@ const Navbar = () => {
           <DialogComponent
             title="Post an Item"
             subtitle="Post an Item"
-            description="Post something that you don't need and you want to give it to others who are in need."
-            form={DialogForm}
+            description="Post something you no longer need to help others."
+            form={<DialogForm />}
           />
         </li>
       </ul>
-      <Link to="/" className="flex items-center justify-center">
-        <img src={logo} alt="BNN" className="w-16 h-16 object-cover" />
+      <Link to="/" className="flex items-center">
+        <img
+          src={logo}
+          alt="Buy Nothing Nepal Logo"
+          className="w-16 h-16 object-cover"
+        />
       </Link>
       <ul className="flex items-center gap-8">
+        <li>
+          {isLoggedIn ? (
+            <NavLink className={getNavLinkClass} to="/search">
+              Search
+            </NavLink>
+          ) : (
+            <NavLink className={getNavLinkClass} to="/auth">
+              Login/Register
+            </NavLink>
+          )}
+        </li>
         <li>
           <NavLink className={getNavLinkClass} to="/requests">
             Requests
           </NavLink>
         </li>
         <li>
-          {isLoggedIn ? (
-            <NavLink className={getNavLinkClass} to="/my-account">
-              My Account
-            </NavLink>
-          ) : (
-            <Link to="/auth">My Account</Link>
-          )}
-        </li>
-        <li>
           <NavLink className={getNavLinkClass} to="/contact">
             Contact
           </NavLink>
         </li>
-        <li>
-          {isLoggedIn && (
+        {isLoggedIn && (
+          <li>
             <DropdownMenu>
-              <DropdownMenuTrigger className="outline-none">
+              <DropdownMenuTrigger>
                 <img
                   src="https://i.pinimg.com/736x/12/bd/fa/12bdfa75f34df29f54e25393570df0a9.jpg"
-                  alt="user's pfp"
+                  alt="User Profile"
                   className="w-8 h-8 rounded-full object-cover"
                 />
               </DropdownMenuTrigger>
@@ -182,8 +188,8 @@ const Navbar = () => {
                 <DropdownMenuItem>Profile Settings</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
-        </li>
+          </li>
+        )}
       </ul>
     </nav>
   );

@@ -9,10 +9,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { login } from "@/lib/auth/auth";
+import { useAuth } from "@/lib/context/AuthContext";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
+  const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -28,6 +31,10 @@ export default function LoginForm() {
     e.preventDefault();
     try {
       const response = await login(formData);
+      if (response) {
+        navigate("/");
+        setIsLoggedIn(true);
+      }
       console.log(response);
     } catch (error) {
       console.log(error);
