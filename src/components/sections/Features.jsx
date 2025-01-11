@@ -5,6 +5,11 @@ import { Link } from "react-router-dom";
 import { MagicCard } from "../ui/magic-card";
 import SparklesText from "../ui/sparkles-text";
 import { motion, useScroll, useTransform } from "framer-motion";
+import NumberTicker from "../ui/number-ticker";
+
+const StatDivider = () => (
+  <div className="h-16 w-px bg-primary/20 self-center" />
+);
 
 const FeaturesCard = ({
   title,
@@ -24,36 +29,41 @@ const FeaturesCard = ({
       : window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "#262626"
       : "#D9D9D955";
+
   return (
     <MagicCard
-      className="flex flex-col  h-full p-8 rounded-lg hover:scale-105 transition-transform duration-200"
+      className="flex flex-col h-full p-8 rounded-lg hover:scale-105 transition-transform duration-200 backdrop-blur-sm"
       gradientColor={gradientColorCard}
     >
       <div className="flex flex-col justify-center w-full items-center gap-4">
-        <h1 className="text-2xl uppercase font-bold text-center">{title}</h1>
+        <h1 className="text-2xl uppercase font-bold text-center text-primary">
+          {title}
+        </h1>
         <motion.div
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
-          className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-2"
+          className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-2 shadow-lg"
         >
           <Icon className="w-10 h-10 text-primary" />
         </motion.div>
-        <p className="text-sm text-center">{description}</p>
-        <div className="flex justify-between w-full">
+        <p className="text-sm text-center text-gray-600 dark:text-gray-300">
+          {description}
+        </p>
+        <div className="flex justify-between w-full gap-4">
           <Link
-            className="mt-4 flex items-center justify-center gap-2 bg-primary text-background p-2 rounded-md hover:bg-opacity-80 transition duration-150"
+            className="mt-4 flex-1 flex items-center justify-center gap-2 bg-primary text-background p-2 rounded-md hover:bg-primary/90 transition duration-150 shadow-md"
             to={link1}
           >
-            <span className="">{buttonText1}</span>
-            <ChevronRight className="transition duration-150 w-4 h-4 " />
+            <span>{buttonText1}</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
-            className="mt-4 flex items-center justify-center gap-2 p-2 rounded-md transition duration-150 border border-[#1c2338]"
+            className="mt-4 flex-1 flex items-center justify-center gap-2 p-2 rounded-md transition duration-150 border border-primary/20 hover:border-primary/40 hover:bg-primary/5"
             to={link2}
           >
-            <span className="">{buttonText2}</span>
-            <ChevronRight className="transition duration-150 w-4 h-4 " />
+            <span>{buttonText2}</span>
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>
@@ -65,16 +75,22 @@ export const Features = () => {
   const { scrollYProgress } = useScroll();
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.8, 1]);
 
+  const stats = [
+    { label: "GIVEAWAYS", value: 995 },
+    { label: "EXCHANGES", value: 996 },
+    { label: "REQUESTS", value: 894 },
+  ];
+
   return (
-    <Section>
-      <motion.div style={{ scale }} className="w-full flex flex-col gap-8">
+    <Section className="py-20">
+      <motion.div style={{ scale }} className="w-full flex flex-col gap-12">
         <SparklesText
-          className="text-5xl text-center font-bold"
+          className="text-6xl text-center font-bold bg-gradient-to-r from-primary to-primary/60 text-transparent bg-clip-text"
           text="FEATURES"
-          sparklesCount={2}
+          sparklesCount={3}
         />
-        <div className="flex flex-col items-center justify-center w-full h-full">
-          <div className="flex flex-col md:flex-row justify-between mx-4 md:mx-20 gap-8 md:gap-20">
+        <div className="flex flex-col items-center justify-center w-full h-full gap-16">
+          <div className="flex flex-col md:flex-row justify-between mx-4 md:mx-20 gap-8 md:gap-8">
             <FeaturesCard
               Icon={Repeat}
               title="Exchange"
@@ -102,6 +118,32 @@ export const Features = () => {
               link1="/create-request"
               link2="/requests"
             />
+          </div>
+          <div className="flex flex-col gap-4">
+            <h1 className="text-5xl text-center uppercase font-semibold">
+              Till today,
+            </h1>
+            <div className="flex items-center gap-8">
+              {stats.map(({ label, value }, index) => (
+                <React.Fragment key={label}>
+                  <div className="text-center">
+                    <p className="whitespace-pre-wrap items-center tracking-tighter flex flex-col">
+                      <span className="text-6xl font-bold text-primary">
+                        <NumberTicker value={value} />
+                        <span className="text-primary/80">+</span>
+                      </span>
+                      <span className="text-lg font-semibold mt-2">
+                        {label}
+                      </span>
+                    </p>
+                  </div>
+                  {index < 2 && <StatDivider />}
+                </React.Fragment>
+              ))}
+            </div>
+            <h1 className="text-5xl text-center uppercase font-semibold">
+              are handled.
+            </h1>
           </div>
         </div>
       </motion.div>

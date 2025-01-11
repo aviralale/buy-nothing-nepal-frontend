@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "./ui/button";
 import HeroBg from "../assets/images/hero-bg.png";
+import { Input } from "./ui/input";
+import { Search } from "lucide-react";
 
 const BoxReveal = ({ children, boxColor, duration }) => {
   return (
@@ -48,7 +50,7 @@ export const Hero = () => {
           y,
         }}
       />
-      <div className="relative w-full h-full flex flex-col justify-center items-center bg-gradient-to-b from-primary/0 via-primary/25 to-primary/65 py-40">
+      <div className="relative w-full h-full flex flex-col justify-center items-center gap-2 bg-gradient-to-b from-primary/0 via-primary/25 to-primary/65 py-40">
         <BoxReveal boxColor={"#ffffff"} duration={0.5}>
           <h1 className="text-7xl bg-primary font-bold text-white drop-shadow-2xl uppercase">
             Welcome to
@@ -79,9 +81,19 @@ export const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2.2 }}
         >
-          <Button className="mt-8 bg-primary" variant="secondary">
-            Get Started
-          </Button>
+          <div className="flex w-full max-w-sm items-center space-x-2">
+            <Input
+              type="text"
+              className="outline-none border-none dark:bg-black bg-white"
+              placeholder={` Search for items...`}
+            />
+            <Button
+              type="submit"
+              className="dark:bg-white dark:text-black text-white bg-black"
+            >
+              <Search />
+            </Button>
+          </div>
         </motion.div>
       </div>
     </motion.div>

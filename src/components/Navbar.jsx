@@ -24,10 +24,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import LocationSelector from "./reusables/LocationSelector";
 import TagsInput from "./reusables/TagsInput";
 
-import Logo from "../assets/images/logo.png";
+import logo from "../assets/images/logo.png";
 import bgNav from "../assets/images/bg-nav.png";
 import bgNavDark from "../assets/images/bg-nav-dark.png";
-import LogoDark from "../assets/images/logo-dark.png";
 import PictureInput from "./reusables/PictureInput";
 import { Button } from "./ui/button";
 import { useAuth } from "@/lib/context/AuthContext";
@@ -92,14 +91,6 @@ const DialogForm = () => {
 const Navbar = () => {
   const { isLoggedIn } = useAuth();
   const theme = localStorage.getItem("vite-ui-theme");
-  const logo =
-    theme === "dark"
-      ? Logo
-      : theme === "light"
-      ? LogoDark
-      : window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? Logo
-      : LogoDark;
 
   const navBackground =
     theme === "dark"
@@ -117,7 +108,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="fixed top-0 z-10 w-full flex justify-between items-center p-4 bg-background/95 rounded-b-sm border-b dark:border-b-[#1c2338] bg-cover bg-bottom"
+      className="fixed top-0 z-40 w-full flex justify-between items-center p-4 bg-background/95 rounded-b-sm border-b dark:border-b-[#1c2338] bg-cover bg-bottom"
       style={{ backgroundImage: `url(${navBackground})` }}
     >
       <ul className="flex items-center gap-8">
@@ -144,7 +135,7 @@ const Navbar = () => {
         <img
           src={logo}
           alt="Buy Nothing Nepal Logo"
-          className="w-16 h-16 object-cover"
+          className="w-16 object-cover"
         />
       </Link>
       <ul className="flex items-center gap-8">
